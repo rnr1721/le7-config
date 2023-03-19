@@ -1,0 +1,36 @@
+{
+    "name": "rnr1721/le7-config",
+    "description": "Lightwaight PHP framework with API,CLI,WEB controllers - config classes",
+    "keywords": ["le7", "le7-framework", "framework", "config", "component"],
+    "authors": [
+        {
+            "name": "Eugeny G",
+            "email": "rnr1721@gmail.com",
+            "homepage": "https://xhamster.biz.ua",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Core\\Config\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "rnr1721",
+            "email": "rnr1721@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "psr/simple-cache": "^3.0"
+    },
+    "require-dev": {
+        "vimeo/psalm": "^5.7",
+        "phpunit/phpunit": "^10.0",
+        "rnr1721/le7-cache": "^1.0"
+    }
+}
