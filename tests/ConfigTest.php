@@ -166,6 +166,13 @@ class ConfigTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($config->string('general.myparam3'), 45);
         $this->assertEquals($config->float('general.test4'), 4.44);
         $this->assertEquals($config->string('name'), 'rnr1721');
+        $config->applyFilter('123', 'test1');
+        $config->applyFilter('testvar', 'testvar1');
+        $this->assertEquals($config->stringf('param777'), 'Hellotest1World');
+        $this->assertEquals($config->stringf('param888.testparam1'), 'onetestvar1two');
+        $this->assertEquals($config->stringf('section.myparamOld.another'), 'twotestvar1one');
+        // Non existing param
+        $this->assertEquals($config->stringf('section.myparamOld.anothervvv','333'), '333');
     }
 
     public function makeTest(Config $config)

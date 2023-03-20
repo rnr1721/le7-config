@@ -14,6 +14,7 @@
 - Get config params by path
 - Strictly control param type and get default value if param not exists in config
 - Use PSR SimpleCache interface for caching
+- Get filtered params (with replacing parts of param values)
 - You can write own adapter for your config types
 
 ## Installation
@@ -111,5 +112,30 @@ use Core\Config\ConfigFactoryGeneric;
     $config = $factory->fromArrayFile($filename, 'My PHP config', 'myconfig');
 
     // $config->string('myparam')
+
+```
+
+## Filtered params
+
+```php
+
+use Core\Config\ConfigFactoryGeneric;
+
+    $data = [
+        'myparam' => 2,
+        'myparam2' => "My site is {myvariable1}",
+        'myparam3' => [
+            'myparam4' => false,
+            'myparam5' => 44.33
+        ]
+    ];
+
+    $factory = new ConfigFactoryGeneric();
+    $config = $factory->fromArray($data);
+
+    $config->applyFilter('vyvariable1','https://example.com');
+
+    // stringf will return "My site is https://example.com"
+    echo $config->stringf('myparam2');
 
 ```

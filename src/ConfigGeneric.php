@@ -22,6 +22,8 @@ use \Exception;
 class ConfigGeneric implements Config
 {
 
+    private array $fsearch = [];
+    private array $freplace = [];
     private string $cacheKey;
     private ?CacheInterface $cache = null;
     private bool $loadedFromCache = false;
@@ -196,6 +198,15 @@ class ConfigGeneric implements Config
         return strval($result);
     }
 
+    public function stringf(string $path, string|null $default = null): string|null
+    {
+        $result = $this->string($path, $default);
+        if ($result) {
+            return str_replace($this->fsearch, $this->freplace, $result);
+        }
+        return null;
+    }
+
     public function array(string $path, array|null $default = null): array|null
     {
         $result = $this->path($path);
@@ -297,6 +308,13 @@ class ConfigGeneric implements Config
             }
         }
         return false;
+    }
+
+    public function applyFilter(string $var, string $replace): self
+    {
+        $this->fsearch[] = '{' . $var . '}';
+        $this->freplace[] = $replace;
+        return $this;
     }
 
 }

@@ -59,6 +59,17 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
     public function string(string $path, string|null $default = null): string|null;
 
     /**
+     * Get filtered string item from config
+     * if default is null and value not in config you will got exception
+     * Will be applied var filters after applyFilter() method.
+     * can replace {variable} in string to some other
+     * @param string $path Path to value in array with separator
+     * @param string|null $default Default value
+     * @return string|null
+     */
+    public function stringf(string $path, string|null $default = null): string|null;
+    
+    /**
      * Get int item from config
      * if default is null and value not in config you will got exception
      * @param string $path Path to value in array with separator
@@ -118,4 +129,15 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
      * @return bool
      */
     public function loadFromCache(): bool;
+    
+    /**
+     * Apply filter
+     * After applying all "variables" will be replaced with some strings
+     * Example: applyFilter('myvar','123');
+     * Result: "/{myvar}/some_string" will be replaced with "/123/some_string"
+     * @param string $var
+     * @param string $replace
+     * @return self
+     */
+    public function applyFilter(string $var, string $replace) : self;
 }
