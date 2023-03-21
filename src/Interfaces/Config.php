@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Config\Interfaces;
 
+use Psr\SimpleCache\CacheInterface;
 use \Countable;
 use \IteratorAggregate;
 use \JsonSerializable;
@@ -68,7 +69,7 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
      * @return string|null
      */
     public function stringf(string $path, string|null $default = null): string|null;
-    
+
     /**
      * Get int item from config
      * if default is null and value not in config you will got exception
@@ -117,19 +118,19 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
      * @return bool
      */
     public function isLoadedFromCache(): bool;
-    
+
     /**
      * Try add to cache if cache enable
      * @return void
      */
-    public function addToCache():void;
-    
+    public function addToCache(): void;
+
     /**
      * Try load from cache if cache enable
      * @return bool
      */
     public function loadFromCache(): bool;
-    
+
     /**
      * Apply filter
      * After applying all "variables" will be replaced with some strings
@@ -139,5 +140,12 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
      * @param string $replace
      * @return self
      */
-    public function applyFilter(string $var, string $replace) : self;
+    public function applyFilter(string $var, string $replace): self;
+
+    /**
+     * Set PSR CacheInterface
+     * @param CacheInterface $cache
+     * @return self
+     */
+    public function setCache(CacheInterface $cache): self;
 }

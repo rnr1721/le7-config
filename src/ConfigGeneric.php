@@ -298,6 +298,12 @@ class ConfigGeneric implements Config
         }
     }
 
+    public function setCache(CacheInterface $cache): self
+    {
+        $this->cache = $cache;
+        return $this;
+    }
+
     public function loadFromCache(): bool
     {
         if ($this->cache) {
