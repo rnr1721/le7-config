@@ -90,7 +90,7 @@ class ConfigHarvesterGeneric implements ConfigHarvester
     public function setExcludes(string $filename): self
     {
         $this->excludeFiles[] = $filename;
-        exit;
+        return $this;
     }
 
 }
