@@ -21,4 +21,11 @@ interface ConfigHarvester
      * @return Config
      */
     public function getConfig(string|array $directory, string $fileSuffix = '', string $cacheKey = 'config'): Config;
+
+    /**
+     * Set filenames that couldnt not be included to config
+     * @param string $filename Filename without path
+     * @return self
+     */
+    public function setExcludes(string $filename): self;
 }

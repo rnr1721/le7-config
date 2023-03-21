@@ -11,6 +11,7 @@ use \Exception;
 class ConfigHarvesterGeneric implements ConfigHarvester
 {
 
+    private array $excludeFiles = [];
     private ?CacheInterface $cache = null;
     private array $adapters = [
         'php' => 'Core\Config\Adapters\ConfigArrayFileAdapter',
@@ -47,10 +48,13 @@ class ConfigHarvesterGeneric implements ConfigHarvester
             $allFiles = $this->getFiles($directory, $fileSuffix);
             foreach ($allFiles as $extension => $files) {
                 foreach ($files as $file) {
-                    $class = $this->adapters[$extension];
-                    /** @var ConfigAdapter $object */
-                    $object = new $class($file, $file);
-                    $config->append($object);
+                    $fileBasename = basename($file);
+                    if (!in_array($fileBasename, $this->excludeFiles)) {
+                        $class = $this->adapters[$extension];
+                        /** @var ConfigAdapter $object */
+                        $object = new $class($file, $file);
+                        $config->append($object);
+                    }
                 }
             }
         }
@@ -81,6 +85,12 @@ class ConfigHarvesterGeneric implements ConfigHarvester
             }
         }
         return $extensions;
+    }
+
+    public function setExcludes(string $filename): self
+    {
+        $this->excludeFiles[] = $filename;
+        exit;
     }
 
 }
