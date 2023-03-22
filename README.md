@@ -16,6 +16,7 @@
 - Use PSR SimpleCache interface for caching
 - Get filtered params (with replacing parts of param values)
 - You can write own adapter for your config types
+- Register dynamic runtime parameter by path
 
 ## Installation
 
@@ -143,5 +144,33 @@ use Core\Config\ConfigFactoryGeneric;
 
     // stringf will return "My site is https://example.com"
     echo $config->stringf('myparam2');
+
+```
+
+## Dynamic parameters
+
+You can add your own parameter (duplicates not allowed)
+
+```php
+
+use Core\Config\ConfigFactoryGeneric;
+
+    $data = [
+        'myparam' => 2,
+        'myparam2' => "My site is {myvariable1}",
+        'myparam3' => [
+            'myparam4' => false,
+            'myparam5' => 44.33
+        ]
+    ];
+
+    $factory = new ConfigFactoryGeneric();
+    $config = $factory->fromArray($data);
+
+    // Add own parameter
+    $config->registerParam('myparam3.testparam77',"test value");
+
+    // Get this parameter
+    $config->string("myparam3.testparam77");
 
 ```

@@ -12,6 +12,24 @@ use \Traversable;
 use \stdClass;
 use \Exception;
 
+use function array_key_exists,
+        count,
+        json_encode,
+        is_array,
+        strlen,
+        explode,
+        is_null,
+        is_bool,
+        is_string,
+        is_numeric,
+        is_int,
+        floatval,
+        strval,
+        boolval,
+        intval,
+        str_replace,
+        array_pop;
+
 /**
  *
  * @phpstan-template TKey
@@ -113,6 +131,11 @@ class ConfigGeneric implements Config
 
     public function path(string $path, mixed $default = null, string $separator = '.'): mixed
     {
+
+        if (empty($path)) {
+            throw new Exception("ConfigGeneric::path() empty path");
+        }
+
         if ($separator === '') {
             $separator = '.';
         }
@@ -320,6 +343,35 @@ class ConfigGeneric implements Config
     {
         $this->fsearch[] = '{' . $var . '}';
         $this->freplace[] = $replace;
+        return $this;
+    }
+
+    public function registerParam(string $path, mixed $value, string $separator = '.'): self
+    {
+
+        if (empty($path)) {
+            throw new Exception("ConfigGeneric::registerParam() empty path");
+        }
+        
+        if (empty($separator)) {
+            $separator = '.';
+        }
+        
+        $cPath = explode($separator, $path);
+        $key = array_pop($cPath);
+
+        $temp = &$this->data;
+        foreach ($cPath as $item) {
+            $temp = &$temp[$item];
+        }
+        if (isset($temp[$key])) {
+            throw new Exception("ConfigGeneric::registerParam() duplicate key:" . $key);
+        }
+        if (!is_array($temp)) {
+            throw new Exception("ConfigGeneric::registerParam() cannot register here:" . $path);
+        }
+        $temp[$key] = $value;
+
         return $this;
     }
 

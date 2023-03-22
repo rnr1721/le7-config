@@ -148,4 +148,13 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
      * @return self
      */
     public function setCache(CacheInterface $cache): self;
+
+    /**
+     * Register own dynamic parameter
+     * @param string $path
+     * @param mixed $value
+     * @param string $separator
+     * @return self
+     */
+    public function registerParam(string $path, mixed $value, string $separator = '.'): self;
 }
