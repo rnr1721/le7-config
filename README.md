@@ -23,6 +23,12 @@
 composer require rnr1721/le7-config
 ```
 
+## Testing
+
+```shell
+composer test
+```
+
 ## How it works?
 
 ```php
