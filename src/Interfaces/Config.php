@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Config\Interfaces;
+namespace Core\Interfaces;
 
 use Psr\SimpleCache\CacheInterface;
 use \Countable;

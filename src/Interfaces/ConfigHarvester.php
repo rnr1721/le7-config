@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Config\Interfaces;
+namespace Core\Interfaces;
 
 interface ConfigHarvester
 {

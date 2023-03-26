@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Config\Interfaces;
+namespace Core\Interfaces;
 
 interface ConfigAdapter
 {

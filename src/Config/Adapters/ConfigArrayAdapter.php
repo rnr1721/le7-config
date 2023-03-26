@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Config\Adapters;
 
-use Core\Config\Interfaces\ConfigAdapter;
+use Core\Interfaces\ConfigAdapter;
 
 class ConfigArrayAdapter implements ConfigAdapter
 {

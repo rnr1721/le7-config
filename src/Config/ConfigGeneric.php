@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Config;
 
-use Core\Config\Interfaces\ConfigAdapter;
-use Core\Config\Interfaces\Config;
+use Core\Interfaces\ConfigAdapter;
+use Core\Interfaces\Config;
 use Psr\SimpleCache\CacheInterface;
 use \ArrayIterator;
 use \Traversable;

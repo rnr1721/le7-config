@@ -2,12 +2,12 @@
 
 namespace Core\Config;
 
-use Core\Config\Interfaces\ConfigFactory;
+use Core\Interfaces\Config;
+use Core\Interfaces\ConfigFactory;
 use Core\Config\Adapters\ConfigArrayAdapter;
 use Core\Config\Adapters\ConfigArrayFileAdapter;
 use Core\Config\Adapters\ConfigJsonFileAdapter;
 use Core\Config\Adapters\ConfigIniFileAdapter;
-use Core\Config\Interfaces\Config;
 use Psr\SimpleCache\CacheInterface;
 
 class ConfigFactoryGeneric implements ConfigFactory

@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Config\Interfaces;
+namespace Core\Interfaces;
 
-use Core\Config\Interfaces\Config;
+use Core\Interfaces\Config;
 
 interface ConfigFactory
 {

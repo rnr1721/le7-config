@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Core\Config\Adapters;
 
-use Core\Config\Interfaces\ConfigAdapter;
-
+use Core\Interfaces\ConfigAdapter;
 use \Exception;
 
-class ConfigArrayFileAdapter implements ConfigAdapter
+class ConfigJsonFileAdapter implements ConfigAdapter
 {
 
-    private string $source = 'Array file config';
+    private string $source = 'Json config';
     private string $filename;
 
     public function __construct(string $filename, ?string $source = null)
@@ -24,16 +23,11 @@ class ConfigArrayFileAdapter implements ConfigAdapter
 
     public function get(): array
     {
-        if (file_exists($this->filename)) {
-            $result = require $this->filename;
-            if (!is_array($result)) {
-                throw new Exception($this->source.": is not array:".$this->filename);
-            }
-            return $result;
-        } else {
-            throw new Exception($this->source.": File not exists:".$this->filename);
+        if (!file_exists($this->filename)) {
+            throw new Exception($this->source . ' File not exists:' . $this->filename);
         }
-        return [];
+        $data = file_get_contents($this->filename);
+        return json_decode($data, true);
     }
 
     public function getSource(): string

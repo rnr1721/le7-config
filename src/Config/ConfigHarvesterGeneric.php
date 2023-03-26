@@ -2,9 +2,9 @@
 
 namespace Core\Config;
 
-use Core\Config\Interfaces\ConfigHarvester;
-use Core\Config\Interfaces\Config;
-use Core\Config\Interfaces\ConfigAdapter;
+use Core\Interfaces\ConfigHarvester;
+use Core\Interfaces\Config;
+use Core\Interfaces\ConfigAdapter;
 use Psr\SimpleCache\CacheInterface;
 use \Exception;
 

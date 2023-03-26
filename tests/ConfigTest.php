@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Core\Config\ConfigFactoryGeneric;
-use Core\Config\Interfaces\ConfigFactory;
-use Core\Config\Interfaces\Config;
-use Core\Cache\SCFactory;
+use Core\Interfaces\ConfigFactory;
+use Core\Interfaces\Config;
+use Core\Cache\SCFactoryGeneric;
 use Psr\SimpleCache\CacheInterface;
 
 require_once 'vendor/autoload.php';
@@ -22,7 +22,7 @@ class ConfigTest extends PHPUnit\Framework\TestCase
     {
         $this->configFactory = new ConfigFactoryGeneric();
 
-        $cacheFactory = new SCFactory();
+        $cacheFactory = new SCFactoryGeneric();
 
         $cfolder = getcwd() . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'cache';
 
