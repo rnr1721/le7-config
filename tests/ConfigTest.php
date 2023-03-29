@@ -173,6 +173,11 @@ class ConfigTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($config->stringf('section.myparamOld.another'), 'twotestvar1one');
         // Non existing param
         $this->assertEquals($config->stringf('section.myparamOld.anothervvv', '333'), '333');
+
+        // Register param with filter
+        $config->registerParam('section.myparamnew', 'test2', 'mpn');
+        $config->registerParam('section.myparamnew2', '{mpn}/777');
+        $this->assertEquals($config->stringf('section.myparamnew2'), 'test2/777');
     }
 
     public function makeTest(Config $config)
@@ -220,7 +225,7 @@ class ConfigTest extends PHPUnit\Framework\TestCase
         if (!$config->path('four.new3')) {
             $config->registerParam('four.new3', 31);
         }
-        
+
         $this->assertEquals($config->int('four.new3'), 31);
         $this->assertEquals($config->string('five'), "test");
     }

@@ -174,3 +174,31 @@ use Core\Config\ConfigFactoryGeneric;
     $config->string("myparam3.testparam77");
 
 ```
+Also you can combine dynamic parameters with filters:
+
+```php
+
+use Core\Config\ConfigFactoryGeneric;
+
+    $data = [
+        'myparam' => 2,
+        'myparam2' => "My site is {myvariable1}",
+        'myparam3' => [
+            'myparam4' => false,
+            'myparam5' => 44.33
+        ]
+    ];
+
+    $factory = new ConfigFactoryGeneric();
+    $config = $factory->fromArray($data);
+
+    // Add own parameter 1
+    $config->registerParam('myparam3.testdirhome',"/home/www",'homepath');
+
+    // Add own parameter 2
+    $config->registerParam('myparam3.testdirbase',"{homepath}/base");
+
+    // Get this parameter (return /home/www/base)
+    $config->stringf("myparam3.testdirbase");
+
+```

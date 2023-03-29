@@ -153,8 +153,9 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
      * Register own dynamic parameter
      * @param string $path
      * @param mixed $value
+     * @param string|null $filter
      * @param string $separator
      * @return self
      */
-    public function registerParam(string $path, mixed $value, string $separator = '.'): self;
+    public function registerParam(string $path, mixed $value, ?string $filter = null, string $separator = '.'): self;
 }

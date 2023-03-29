@@ -11,24 +11,23 @@ use \ArrayIterator;
 use \Traversable;
 use \stdClass;
 use \Exception;
-
 use function array_key_exists,
-        count,
-        json_encode,
-        is_array,
-        strlen,
-        explode,
-        is_null,
-        is_bool,
-        is_string,
-        is_numeric,
-        is_int,
-        floatval,
-        strval,
-        boolval,
-        intval,
-        str_replace,
-        array_pop;
+             count,
+             json_encode,
+             is_array,
+             strlen,
+             explode,
+             is_null,
+             is_bool,
+             is_string,
+             is_numeric,
+             is_int,
+             floatval,
+             strval,
+             boolval,
+             intval,
+             str_replace,
+             array_pop;
 
 /**
  *
@@ -341,22 +340,26 @@ class ConfigGeneric implements Config
 
     public function applyFilter(string $var, string $replace): self
     {
-        $this->fsearch[] = '{' . $var . '}';
+        $value = '{' . $var . '}';
+        if (in_array($value, $this->fsearch)) {
+            throw new Exception("ConfigGeneric::applyFilter() filter is exists:" . $var);
+        }
+        $this->fsearch[] = $value;
         $this->freplace[] = $replace;
         return $this;
     }
 
-    public function registerParam(string $path, mixed $value, string $separator = '.'): self
+    public function registerParam(string $path, mixed $value, ?string $filter = null, string $separator = '.'): self
     {
 
         if (empty($path)) {
             throw new Exception("ConfigGeneric::registerParam() empty path");
         }
-        
+
         if (empty($separator)) {
             $separator = '.';
         }
-        
+
         $cPath = explode($separator, $path);
         $key = array_pop($cPath);
 
@@ -371,6 +374,10 @@ class ConfigGeneric implements Config
             throw new Exception("ConfigGeneric::registerParam() cannot register here:" . $path);
         }
         $temp[$key] = $value;
+
+        if ($filter !== null) {
+            $this->applyFilter($filter, $value);
+        }
 
         return $this;
     }
