@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Config\Adapters;
 
-use Core\Interfaces\ConfigAdapter;
+use Core\Interfaces\ConfigAdapterInterface;
 
-class ConfigArrayAdapter implements ConfigAdapter
+class ConfigArrayAdapter implements ConfigAdapterInterface
 {
 
     private string $source = 'Array config';

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Core\Config\Adapters;
 
-use Core\Interfaces\ConfigAdapter;
+use Core\Interfaces\ConfigAdapterInterface;
 use \Exception;
 
-class ConfigIniFileAdapter implements ConfigAdapter
+class ConfigIniFileAdapter implements ConfigAdapterInterface
 {
 
     private string $source = 'Ini config';
@@ -28,7 +28,7 @@ class ConfigIniFileAdapter implements ConfigAdapter
         }
         $data = parse_ini_file($this->filename, true, INI_SCANNER_TYPED);
         if (!is_array($data)) {
-            throw new Exception($this->source.": is not array:".$this->filename);
+            throw new Exception($this->source . ": is not array:" . $this->filename);
         }
         return $data;
     }

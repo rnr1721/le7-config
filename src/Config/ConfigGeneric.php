@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Config;
 
-use Core\Interfaces\ConfigAdapter;
-use Core\Interfaces\Config;
+use Core\Interfaces\ConfigAdapterInterface;
+use Core\Interfaces\ConfigInterface;
 use Psr\SimpleCache\CacheInterface;
 use \ArrayIterator;
 use \Traversable;
@@ -34,9 +34,9 @@ use function array_key_exists,
  * @phpstan-template TKey
  * @psalm-template TKey of array-key
  * @psalm-template T
- * @template-implements Config<TKey,T>
+ * @template-implements ConfigInterface<TKey,T>
  */
-class ConfigGeneric implements Config
+class ConfigGeneric implements ConfigInterface
 {
 
     private array $fsearch = [];
@@ -69,7 +69,11 @@ class ConfigGeneric implements Config
      */
     private array $data = [];
 
-    public function __construct(?ConfigAdapter $configAdapter = null, ?CacheInterface $cache = null, string $cacheKey = 'config')
+    public function __construct(
+            ?ConfigAdapterInterface $configAdapter = null,
+            ?CacheInterface $cache = null,
+            string $cacheKey = 'config'
+    )
     {
         $this->cacheKey = $cacheKey;
         $this->cache = $cache;
@@ -97,7 +101,6 @@ class ConfigGeneric implements Config
     }
 
     /**
-     * 
      * @return Traversable<TKey,T>
      */
     public function getIterator(): Traversable
@@ -241,7 +244,12 @@ class ConfigGeneric implements Config
         return $result;
     }
 
-    private function checkValue(mixed $result, mixed $default, string $path, string $context): mixed
+    private function checkValue(
+            mixed $result,
+            mixed $default,
+            string $path,
+            string $context
+    ): mixed
     {
         if ($result === null && $default === null) {
             throw new Exception('ConfigGeneric::checkValue() Config value (' . $context . ') not exists in config:' . $path);
@@ -296,7 +304,7 @@ class ConfigGeneric implements Config
         }
     }
 
-    public function append(ConfigAdapter $configAdapter): self
+    public function append(ConfigAdapterInterface $configAdapter): self
     {
         $data = $configAdapter->get();
         foreach ($data as $item => $value) {
@@ -349,7 +357,12 @@ class ConfigGeneric implements Config
         return $this;
     }
 
-    public function registerParam(string $path, mixed $value, ?string $filter = null, string $separator = '.'): self
+    public function registerParam(
+            string $path,
+            mixed $value,
+            ?string $filter = null,
+            string $separator = '.'
+    ): self
     {
 
         if (empty($path)) {

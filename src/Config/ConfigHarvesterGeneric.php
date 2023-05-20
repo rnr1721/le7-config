@@ -2,13 +2,13 @@
 
 namespace Core\Config;
 
-use Core\Interfaces\ConfigHarvester;
-use Core\Interfaces\Config;
-use Core\Interfaces\ConfigAdapter;
+use Core\Interfaces\ConfigHarvesterInterface;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\ConfigAdapterInterface;
 use Psr\SimpleCache\CacheInterface;
 use \Exception;
 
-class ConfigHarvesterGeneric implements ConfigHarvester
+class ConfigHarvesterGeneric implements ConfigHarvesterInterface
 {
 
     private array $excludeFiles = [];
@@ -31,8 +31,8 @@ class ConfigHarvesterGeneric implements ConfigHarvester
         if (!class_exists($adapter)) {
             throw new Exception('ConfigHarvesterGeneric::addAdapter Class not exists:' . $adapter);
         }
-        if (!$adapter instanceof ConfigAdapter) {
-            throw new Exception('ConfigHarvesterGeneric::addAdapter Class not instance of ConfigAdapter:' . $adapter);
+        if (!$adapter instanceof ConfigAdapterInterface) {
+            throw new Exception('ConfigHarvesterGeneric::addAdapter Class not instance of ConfigAdapterInterface:' . $adapter);
         }
         if (!array_key_exists($extension, $this->adapters)) {
             throw new Exception('ConfigHarvesterGeneric::addAdapter Extension already added:' . $extension);
@@ -41,7 +41,11 @@ class ConfigHarvesterGeneric implements ConfigHarvester
         return $this;
     }
 
-    public function getConfig(string|array $directory, string $fileSuffix = '', string $cacheKey = 'config'): Config
+    public function getConfig(
+            string|array $directory,
+            string $fileSuffix = '',
+            string $cacheKey = 'config'
+    ): ConfigInterface
     {
         $config = new ConfigGeneric(null, $this->cache, $cacheKey);
         if (!$config->isLoadedFromCache()) {
@@ -51,7 +55,7 @@ class ConfigHarvesterGeneric implements ConfigHarvester
                     $fileBasename = basename($file);
                     if (!in_array($fileBasename, $this->excludeFiles)) {
                         $class = $this->adapters[$extension];
-                        /** @var ConfigAdapter $object */
+                        /** @var ConfigAdapterInterface $object */
                         $object = new $class($file, $file);
                         $config->append($object);
                     }

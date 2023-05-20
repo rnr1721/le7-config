@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Core\Config\ConfigFactoryGeneric;
-use Core\Interfaces\ConfigFactory;
-use Core\Interfaces\Config;
+use Core\Interfaces\ConfigFactoryInterface;
+use Core\Interfaces\ConfigInterface;
 use Core\Cache\SCFactoryGeneric;
 use Psr\SimpleCache\CacheInterface;
 
@@ -15,8 +15,8 @@ class ConfigTest extends PHPUnit\Framework\TestCase
 {
 
     private CacheInterface $cache;
-    private ConfigFactory $configFactory;
-    private ConfigFactory $configFactoryCache;
+    private ConfigFactoryInterface $configFactory;
+    private ConfigFactoryInterface $configFactoryCache;
 
     protected function setUp(): void
     {
@@ -157,7 +157,7 @@ class ConfigTest extends PHPUnit\Framework\TestCase
         $this->cache->clear();
     }
 
-    public function makeHarvestTest(Config $config)
+    public function makeHarvestTest(ConfigInterface $config)
     {
         $this->assertEquals($config->int('param1'), 0);
         $this->assertEquals($config->int('param2'), 1);
@@ -180,7 +180,7 @@ class ConfigTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($config->stringf('section.myparamnew2'), 'test2/777');
     }
 
-    public function makeTest(Config $config)
+    public function makeTest(ConfigInterface $config)
     {
         // When exists
         $this->assertEquals($config->int('one'), '12');

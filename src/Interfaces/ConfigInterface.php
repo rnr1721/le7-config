@@ -17,7 +17,7 @@ use \ArrayAccess;
  * @template-extends IteratorAggregate<TKey, T>
  * @template-extends ArrayAccess<TKey|null, T>
  */
-interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializable
+interface ConfigInterface extends Countable, IteratorAggregate, ArrayAccess, JsonSerializable
 {
 
     /**
@@ -108,10 +108,10 @@ interface Config extends Countable, IteratorAggregate, ArrayAccess, JsonSerializ
 
     /**
      * Append from another config
-     * @param ConfigAdapter $configAdapter Config Adapter
+     * @param ConfigAdapterInterface $configAdapter Config Adapter
      * @return self
      */
-    public function append(ConfigAdapter $configAdapter): self;
+    public function append(ConfigAdapterInterface $configAdapter): self;
 
     /**
      * If config loaded from cache

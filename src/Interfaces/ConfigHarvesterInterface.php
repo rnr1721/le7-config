@@ -2,7 +2,7 @@
 
 namespace Core\Interfaces;
 
-interface ConfigHarvester
+interface ConfigHarvesterInterface
 {
 
     /**
@@ -18,9 +18,9 @@ interface ConfigHarvester
      * harvested configuration
      * @param string|array $directory Directory or directories for find config
      * @param string $fileSuffix
-     * @return Config
+     * @return ConfigInterface
      */
-    public function getConfig(string|array $directory, string $fileSuffix = '', string $cacheKey = 'config'): Config;
+    public function getConfig(string|array $directory, string $fileSuffix = '', string $cacheKey = 'config'): ConfigInterface;
 
     /**
      * Set filenames that couldnt not be included to config

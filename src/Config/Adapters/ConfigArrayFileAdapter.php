@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Core\Config\Adapters;
 
-use Core\Interfaces\ConfigAdapter;
-
+use Core\Interfaces\ConfigAdapterInterface;
 use \Exception;
 
-class ConfigArrayFileAdapter implements ConfigAdapter
+class ConfigArrayFileAdapter implements ConfigAdapterInterface
 {
 
     private string $source = 'Array file config';
@@ -27,11 +26,11 @@ class ConfigArrayFileAdapter implements ConfigAdapter
         if (file_exists($this->filename)) {
             $result = require $this->filename;
             if (!is_array($result)) {
-                throw new Exception($this->source.": is not array:".$this->filename);
+                throw new Exception($this->source . ": is not array:" . $this->filename);
             }
             return $result;
         } else {
-            throw new Exception($this->source.": File not exists:".$this->filename);
+            throw new Exception($this->source . ": File not exists:" . $this->filename);
         }
         return [];
     }
