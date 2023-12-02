@@ -244,6 +244,27 @@ class ConfigGeneric implements ConfigInterface
         return $result;
     }
 
+    public function arrayWithKeyStartWith(string $keyStartWith, string|null $path = null): array|null
+    {
+        if ($path === null) {
+            $values = $this->data;
+        } else {
+            $values = $this->array($path);
+        }
+        if (!is_array($values)) {
+            return null;
+        }
+
+        $filteredArray = array_filter(
+                $values,
+                function ($key) use ($keyStartWith) {
+                    return strpos($key, $keyStartWith) === 0;
+                },
+                ARRAY_FILTER_USE_KEY
+        );
+        return $filteredArray;
+    }
+
     private function checkValue(
             mixed $result,
             mixed $default,
@@ -285,7 +306,7 @@ class ConfigGeneric implements ConfigInterface
     public function offsetSet(mixed $offset, mixed $value): void
     {
         if ($this->readOnly) {
-            throw new Exception("ConfigGeneric::offsetSet() Setting values to config not allowed:" . ($offset . ',' ?? '') . $value);
+            throw new Exception("ConfigGeneric::offsetSet() Setting values to config not allowed:" . ($offset === null ? '' : $offset) . $value);
         } else {
             if (is_null($offset)) {
                 throw new Exception("ConfigGeneric::offsetSet() Key is required");
@@ -376,6 +397,7 @@ class ConfigGeneric implements ConfigInterface
         $cPath = explode($separator, $path);
         $key = array_pop($cPath);
 
+        /** @psalm-suppress UnsupportedPropertyReferenceUsage */
         $temp = &$this->data;
         foreach ($cPath as $item) {
             $temp = &$temp[$item];
@@ -394,5 +416,4 @@ class ConfigGeneric implements ConfigInterface
 
         return $this;
     }
-
 }

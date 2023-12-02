@@ -43,6 +43,14 @@ class ConfigTest extends PHPUnit\Framework\TestCase
 
         $config = $this->configFactory->fromArray($array);
 
+        $startsWithChild = count($config->arrayWithKeyStartWith('doctrine','many_elements'));
+
+        $this->assertEquals($startsWithChild, 3);
+        
+        $startsWithParent = count($config->arrayWithKeyStartWith('laravel'));
+        
+        $this->assertEquals($startsWithParent, 2);
+        
         $this->makeTest($config);
     }
 
@@ -178,6 +186,7 @@ class ConfigTest extends PHPUnit\Framework\TestCase
         $config->registerParam('section.myparamnew', 'test2', 'mpn');
         $config->registerParam('section.myparamnew2', '{mpn}/777');
         $this->assertEquals($config->stringf('section.myparamnew2'), 'test2/777');
+        
     }
 
     public function makeTest(ConfigInterface $config)
@@ -229,7 +238,7 @@ class ConfigTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($config->int('four.new3'), 31);
         $this->assertEquals($config->string('five'), "test");
     }
-
+    
     public function getConfig(string $config)
     {
         $ds = DIRECTORY_SEPARATOR;

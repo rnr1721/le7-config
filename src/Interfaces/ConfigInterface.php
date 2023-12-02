@@ -107,6 +107,14 @@ interface ConfigInterface extends Countable, IteratorAggregate, ArrayAccess, Jso
     public function array(string $path, array|null $default = null): array|null;
 
     /**
+     * Return array elements with keys starts with
+     * @param string $keyStartWith
+     * @param string|null $path
+     * @return array|null
+     */
+    public function arrayWithKeyStartWith(string $keyStartWith, string|null $path = null): array|null;
+    
+    /**
      * Append from another config
      * @param ConfigAdapterInterface $configAdapter Config Adapter
      * @return self
